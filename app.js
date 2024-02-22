@@ -182,6 +182,7 @@ const deleteUser = (req, res) => {
 //the above two lines can be written as
 
 //routes
+/*
 
 app.route('/api/v1/tours').get(getallTour).post(createTour);
 
@@ -197,9 +198,24 @@ app
   .patch(updateTour)
   .delete(deleteTour);
 //this is a lot bettter and easier to read
+*/
 
-app.route('/api/v1/users').get(getAllUsers).post(createUser);
-app.route('api/v1/users/:id').get(getUser).delete(deleteUser).patch(updateUser);
+//now a better version or practice
+
+const tourRouter = express.Router();
+const userRouter = express.Router();
+
+tourRouter.route('/').get(getallTour).post(createTour);
+tourRouter.route('/:id').get(getTour).patch(updateTour).delete(deleteTour);
+
+userRouter.route('/').get(getAllUsers).post(createUser);
+userRouter.route('/:id').get(getUser).delete(deleteUser).patch(updateUser);
+
+// the middlewares are defined below
+
+app.use('/api/v1/tours', tourRouter);
+app.use('/api/v1/users', userRouter);
+
 //to start the server
 
 app.listen(port, () => {
